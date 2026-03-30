@@ -77,7 +77,6 @@ n_spam = (df["label"] == "spam").sum()
 acc = round(report["accuracy"] * 100, 2)
 
 st.title("📊 SMS Spam Detector — Dashboard")
-st.markdown("Analyse complète du dataset et performances du modèle Naive Bayes.")
 st.markdown("---")
 
 c1, c2, c3, c4 = st.columns(4)
