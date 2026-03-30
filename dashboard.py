@@ -58,13 +58,11 @@ def load_and_train(path):
 
 
 st.sidebar.title("📊 SMS Spam Detector")
-uploaded = st.sidebar.file_uploader("Charger spam.csv", type="csv")
+uploaded = st.sidebar.file_uploader("Upload spam.csv", type="csv")
 st.sidebar.markdown("---")
 
 if uploaded is None:
-    st.info(
-        "👈 Charge ton fichier **spam.csv** dans la sidebar pour lancer le dashboard."
-    )
+    st.info("👈 Upload your **spam.csv** file in the sidebar to launch the dashboard.")
     st.stop()
 
 df, model, vec, report, cm = load_and_train(uploaded)
@@ -78,21 +76,21 @@ st.title("📊 SMS Spam Detector — Dashboard")
 st.markdown("---")
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Total messages", f"{n_total:,}")
-c2.metric("Légitimes", f"{n_ham:,}", f"{n_ham/n_total*100:.1f}%")
+c1.metric("Total Messages", f"{n_total:,}")
+c2.metric("Ham", f"{n_ham:,}", f"{n_ham/n_total*100:.1f}%")
 c3.metric("Spam", f"{n_spam:,}", f"{n_spam/n_total*100:.1f}%")
-c4.metric("Précision", f"{acc}%")
+c4.metric("Accuracy", f"{acc}%")
 
 st.markdown("---")
 
 col1, _ = st.columns(2)
 
 with col1:
-    st.subheader("Répartition Légitimes / Spam")
+    st.subheader("Ham vs Spam Distribution")
     fig, ax = plt.subplots(figsize=(4, 4))
     ax.pie(
         [n_ham, n_spam],
-        labels=["Légitimes", "Spam"],
+        labels=["Ham", "Spam"],
         colors=[HAM_COLOR, SPAM_COLOR],
         autopct="%1.1f%%",
         startangle=90,
@@ -118,7 +116,7 @@ with col3:
     )
 
 with col3:
-    st.subheader("Top 10 mots dans les spam")
+    st.subheader("Top 10 Words in Spam Messages")
     spam_words = []
     for msg in df[df.label == "spam"]["message"]:
         words = re.findall(r"[a-zA-Z]{3,}", msg.lower())
@@ -142,23 +140,23 @@ with col3:
 
 st.markdown("---")
 
-st.subheader("🔍 Tester un message")
+st.subheader("🔍 Test a Message")
 user_msg = st.text_area(
-    "Colle un SMS ici :", placeholder="Ex: Congratulations! You've won a free prize..."
+    "Paste an SMS here:", placeholder="Ex: Congratulations! You've won a free prize..."
 )
-if st.button("Analyser"):
+if st.button("Analyze"):
     if user_msg.strip():
         cleaned = clean_text(user_msg)
         vect = vec.transform([cleaned])
         pred = model.predict(vect)[0]
         proba = model.predict_proba(vect)[0]
-        label = "🚨 SPAM" if pred == 1 else "✅ Légitime"
+        label = "🚨 SPAM" if pred == 1 else "✅ Ham"
         conf = proba[pred] * 100
         color = SPAM_COLOR if pred == 1 else HAM_COLOR
         st.markdown(
-            f"<h3 style='color:{color}'>{label} — confiance : {conf:.1f}%</h3>",
+            f"<h3 style='color:{color}'>{label} — Confidence: {conf:.1f}%</h3>",
             unsafe_allow_html=True,
         )
         st.progress(int(conf))
     else:
-        st.warning("Entre un message d'abord !")
+        st.warning("Please enter a message first!")
