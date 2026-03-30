@@ -83,7 +83,7 @@ c1, c2, c3, c4 = st.columns(4)
 c1.metric("Total messages", f"{n_total:,}")
 c2.metric("Légitimes", f"{n_ham:,}", f"{n_ham/n_total*100:.1f}%")
 c3.metric("Spam", f"{n_spam:,}", f"{n_spam/n_total*100:.1f}%")
-c4.metric("Accuracy", f"{acc}%")
+c4.metric("Précision", f"{acc}%")
 
 st.markdown("---")
 
