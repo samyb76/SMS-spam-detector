@@ -60,8 +60,6 @@ def load_and_train(path):
 st.sidebar.title("📊 SMS Spam Detector")
 uploaded = st.sidebar.file_uploader("Charger spam.csv", type="csv")
 st.sidebar.markdown("---")
-st.sidebar.markdown("Modèle : **Naive Bayes + TF-IDF**")
-st.sidebar.markdown("Dataset : **UCI SMS Spam Collection**")
 
 if uploaded is None:
     st.info(
