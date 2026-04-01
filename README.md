@@ -77,12 +77,12 @@ Then:
 
 ```
 Congratulations! You've won a free prize. Click here to claim your reward now.
-→ 🚨 SPAM — Confidence: 97.3%
+→ SPAM — Confidence: 97.3%
 ```
 
 ```
 Hey, are you coming to the meeting tomorrow at 10am?
-→ ✅ Ham — Confidence: 99.1%
+→ Ham — Confidence: 99.1%
 ```
 
 ---
